@@ -125,7 +125,7 @@ int main(void)
    *    handled in milliseconds basis.
    *  - Low Level Initialization
    */
-	char *name = "BlueNRG_8";
+	char *name = "BlueNRG_6";
 	uint8_t AdvAddress[] = {0x08, 0x05, 0x04, 0x03, 0x02, 0x01};	
 	uint8_t TxPowerLevel = 7;
 	uint16_t AdvInterval = 100;

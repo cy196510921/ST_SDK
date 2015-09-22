@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\BlueNRG_SDK.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\BlueNRG_SDK.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Mon Sep 21 15:18:13 2015
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5040049: Last Updated: Tue Sep 22 09:27:19 2015
 <BR><P>
 <H3>Maximum Stack Usage =        800 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1124,8 +1124,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ae]"></a>ble_device_set_name</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, bluenrg_sdk_api.o(i.ble_device_set_name))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ble_device_set_name &rArr; strlen
+<P><STRONG><a name="[ae]"></a>ble_device_set_name</STRONG> (Thumb, 42 bytes, Stack size 16 bytes, bluenrg_sdk_api.o(i.ble_device_set_name))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = ble_device_set_name &rArr; strlen
 </UL>
 <BR>[Calls]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
@@ -1142,7 +1142,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[52]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[a5]"></a>ble_device_start_advertising</STRONG> (Thumb, 90 bytes, Stack size 48 bytes, bluenrg_sdk_api.o(i.ble_device_start_advertising))
+<P><STRONG><a name="[a5]"></a>ble_device_start_advertising</STRONG> (Thumb, 88 bytes, Stack size 48 bytes, bluenrg_sdk_api.o(i.ble_device_start_advertising))
 <BR><BR>[Stack]<UL><LI>Max Depth = 768 + Unknown Stack Size
 <LI>Call Chain = ble_device_start_advertising &rArr; aci_gatt_update_char_value &rArr; hci_send_req &rArr; hci_send_cmd &rArr; hci_write &rArr; Hal_Write_Serial &rArr; BlueNRG_SPI_Write &rArr; set_irq_as_output &rArr; HAL_GPIO_Init
 </UL>

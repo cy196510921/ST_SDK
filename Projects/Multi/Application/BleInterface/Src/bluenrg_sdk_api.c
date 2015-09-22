@@ -8,8 +8,8 @@ volatile uint8_t Ble_conn_state = BLE_CONNECTABLE;
 static uint16_t connection_handle = 0;
 uint16_t BLueNrgServHandle, WriteCharHandle, WriteCmdCharHandle, ReadNotifyCharHandle, NotifyCharHandle;
 uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
-static char AdvName[] = "BlueNRG";
-const char LocalName[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G'};
+const uint8_t AdvName[20];
+char LocalName[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G'};
 static uint8_t AdvNameLen = 7;
 
 __weak void ble_device_on_message(uint8_t type, uint16_t length, uint8_t* value){}
@@ -151,6 +151,8 @@ tBleStatus ble_device_set_name(const char* new_device_name)
 	 tBleStatus ret; 
 		AdvNameLen = strlen(new_device_name);
 		memcpy(AdvName,new_device_name,AdvNameLen);
+		LocalName[0] = AD_TYPE_COMPLETE_LOCAL_NAME;
+		memcpy(LocalName+1,new_device_name,AdvNameLen);
 }
 
 /**
@@ -184,7 +186,7 @@ tBleStatus ble_device_start_advertising(void)
   /* disable scan response */
   hci_le_set_scan_resp_data(0,NULL);
 	ret = aci_gatt_update_char_value(service_handle, dev_name_char_handle, 0,
-                                   AdvNameLen, (uint8_t *)AdvName);
+                                   AdvNameLen, AdvName);
 	
 	/*min_adv_interval > 32*0.625*/
 	ret = aci_gap_set_discoverable(ADV_IND, m_adv_params.interval, m_adv_params.interval, PUBLIC_ADDR, NO_WHITE_LIST_USE,

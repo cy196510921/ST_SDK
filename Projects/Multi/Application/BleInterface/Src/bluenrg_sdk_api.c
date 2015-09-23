@@ -5,11 +5,11 @@
 #define BDADDR_SIZE 6
 ble_gap_adv_params_t m_adv_params;
 volatile uint8_t Ble_conn_state = BLE_CONNECTABLE;
-static uint16_t connection_handle = 0;
-uint16_t BLueNrgServHandle, WriteCharHandle, WriteCmdCharHandle, ReadNotifyCharHandle, NotifyCharHandle;
+static uint16_t connection_handle = 0 ,notification_enabled = 0;
+uint16_t BLueNrgServHandle =0x0001, WriteCharHandle = 0x0006, WriteCmdCharHandle = 0x000A, ReadNotifyCharHandle = 0x000D, NotifyCharHandle = 0x0010;
 uint16_t service_handle, dev_name_char_handle, appearance_char_handle;
 const uint8_t AdvName[20];
-char LocalName[] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G'};
+char LocalName[20] = {AD_TYPE_COMPLETE_LOCAL_NAME,'B','l','u','e','N','R','G'};
 static uint8_t AdvNameLen = 7;
 
 __weak void ble_device_on_message(uint8_t type, uint16_t length, uint8_t* value){}
@@ -117,14 +117,14 @@ static tBleStatus Add_Service(void)
 						
 	/*Add bulkout characteristic*/
 	ret =  aci_gatt_add_char(BLueNrgServHandle, UUID_TYPE_128, bulkout_uuid, 0x14,
-                           CHAR_PROP_WRITE_WITHOUT_RESP, ATTR_PERMISSION_NONE, GATT_NOTIFY_ATTRIBUTE_WRITE,
-                           16, 1, &WriteCmdCharHandle);
+                           CHAR_PROP_WRITE_WITHOUT_RESP, ATTR_PERMISSION_NONE, 0,
+                           16, 1, &WriteCmdCharHandle);//GATT_NOTIFY_ATTRIBUTE_WRITE
 	if (ret != BLE_STATUS_SUCCESS) goto fail;
 	
 	/*Add event characteristic*/
 	ret =  aci_gatt_add_char(BLueNrgServHandle, UUID_TYPE_128, event_char_uuid, 0x14,
-                           CHAR_PROP_NOTIFY|CHAR_PROP_READ, ATTR_PERMISSION_NONE, GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP,
-                           16, 1, &ReadNotifyCharHandle);
+                           CHAR_PROP_NOTIFY|CHAR_PROP_READ, ATTR_PERMISSION_NONE, 0,
+                           16, 1, &ReadNotifyCharHandle);//GATT_NOTIFY_READ_REQ_AND_WAIT_FOR_APPL_RESP
 	if (ret != BLE_STATUS_SUCCESS) goto fail;
 						
 	
@@ -210,7 +210,11 @@ tBleStatus ble_device_send(uint8_t type, uint32_t length, uint8_t* value)
 {
 	tBleStatus ret;
 	uint8_t packet[20];
-
+	if(notification_enabled == 0){
+		
+		return BLE_WAIT_REMOTE_ENABLE_NOTIFY;
+	}
+	
   if (length > 18) length = 18;
 	packet[0] = type;
   packet[1] = length;
@@ -300,6 +304,7 @@ void HCI_Event_CB(void *pckt)
     
   case EVT_DISCONN_COMPLETE:
     {
+			notification_enabled = 0;
 			ble_device_on_disconnect(event_pckt->data[3]);
     }
     break;
@@ -332,7 +337,11 @@ void HCI_Event_CB(void *pckt)
           extract callback data and pass to suitable handler function */
           evt_gatt_attr_modified *evt = (evt_gatt_attr_modified*)blue_evt->data;
 					///on message
-					ble_device_on_message(evt->att_data[0], evt->att_data[1], (evt->att_data)+2);				
+					if(evt->att_data[1] > 0){
+						ble_device_on_message(evt->att_data[0], evt->att_data[1], (evt->att_data)+2);	
+					}else if(evt->att_data[0] == 1){
+						notification_enabled = 1;
+					}						
         }
         break; 
 

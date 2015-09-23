@@ -8,7 +8,54 @@ Project File Date:  09/17/2015
 
 <h2>Output:</h2>
 Build target 'Blue_NRG_MS_F4xx_SDK'
+compiling demo_echo.c...
+..\..\Echo\demo_echo.c(26): warning:  #177-D: variable "ret" was declared but never referenced
+                tBleStatus ret = BLE_WAIT_REMOTE_ENABLE_NOTIFY;
+..\..\Echo\demo_echo.c: 1 warning, 0 errors
 linking...
-Program Size: Code=8544 RO-data=464 RW-data=100 ZI-data=2444  
+Program Size: Code=8528 RO-data=464 RW-data=112 ZI-data=2440  
 FromELF: creating hex file...
-".\BlueNRG_SDK.axf" - 0 Error(s), 0 Warning(s).
+".\BlueNRG_SDK.axf" - 0 Error(s), 1 Warning(s).
+</pre>
+</body>
+</html>
+ST_SDK\\Projects\\Multi\\Application\\BleInterface\\MDK-ARM\\BlueNRG_SDK.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...
+ramming Done.
+Verify OK.
+Application running ...
+rameter of type "void *restrict"
+                memcpy(AdvName,new_device_name,AdvNameLen);
+..\Src\bluenrg_sdk_api.c(156): warning:  #940-D: missing return statement at end of non-void function "ble_device_set_name"
+  }
+..\Src\bluenrg_sdk_api.c(151): warning:  #177-D: variable "ret" was declared but never referenced
+         tBleStatus ret; 
+..\Src\bluenrg_sdk_api.c(173): warning:  #940-D: missing return statement at end of non-void function "Advertise_Address"
+  }
+..\Src\bluenrg_sdk_api.c(193): warning:  #167-D: argument of type "const uint8_t *" is incompatible with parameter of type "uint8_t *"
+                                     AdvNameLen+1, LocalName, uuid_length, serviceUUIDList, 0, 0);//// start advertising
+..\Src\bluenrg_sdk_api.c(227): warning:  #940-D: missing return statement at end of non-void function "ble_device_send"
+  }
+..\Src\bluenrg_sdk_api.c: 9 warnings, 0 errors
+compiling demo_echo.c...
+compiling main.c...
+..\Src\main.c(145): warning:  #167-D: argument of type "const char *" is incompatible with parameter of type "char *"
+        ble_start_adv(name, AdvAddress, TxPowerLevel, AdvInterval);
+..\Src\main.c: 1 warning, 0 errors
+compiling stm32_bluenrg_ble.c...
+compiling hci.c...
+..\..\..\..\..\Middlewares\ST\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\hci.c(178): warning:  #223-D: function "Hal_Write_Serial" declared implicitly
+    Hal_Write_Serial(data1, data2, n_bytes1, n_bytes2);
+..\..\..\..\..\Middlewares\ST\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\hci.c: 1 warning, 0 errors
+compiling bluenrg_gap_aci.c...
+compiling bluenrg_gatt_aci.c...
+compiling bluenrg_hal_aci.c...
+compiling bluenrg_l2cap_aci.c...
+compiling gp_timer.c...
+linking...
+Program Size: Code=8556 RO-data=464 RW-data=132 ZI-data=2444  
+FromELF: creating hex file...
+".\BlueNRG_SDK.axf" - 0 Error(s), 11 Warning(s).

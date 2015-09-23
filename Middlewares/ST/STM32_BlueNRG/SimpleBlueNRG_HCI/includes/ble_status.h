@@ -113,6 +113,12 @@ typedef uint8_t tBleStatus;
 #define BLE_STATUS_PROFILE_ALREADY_INITIALIZED (0xF0)
 #define BLE_STATUS_NULL_PARAM                  (0xF1) 
 
+
+/**
+	*Self Define
+	*/
+#define BLE_WAIT_REMOTE_ENABLE_NOTIFY					(0xF2)
+
 /**
  * @}
  */

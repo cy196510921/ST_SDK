@@ -2,7 +2,7 @@
 #include "bluenrg_sdk_api.h"
 /*start adv*/
 
-
+uint8_t test_Buffer[18] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11,0x12,};
 void User_Process(void)
 {
   if(Ble_conn_state){
@@ -16,18 +16,20 @@ void User_Process(void)
 void ble_device_on_message(uint8_t type, uint16_t length, uint8_t* value)
 {  	
 	/*echo data*/
-	ble_device_send(type, length, value);
+		ble_device_send(type, length, value);
 			
 }
 /* Device on connect */
 void ble_device_on_connect(void)
 {
-	BSP_LED_Toggle(LED0);
+		
+		tBleStatus ret = BLE_WAIT_REMOTE_ENABLE_NOTIFY;
+	
+	//BSP_LED_Toggle(LED0);
 }
 /* Device on disconnect */
 void ble_device_on_disconnect(uint8_t reason)
 {
-	//BSP_LED_Toggle(LED0);
 	/* Make the device connectable again. */
 	Ble_conn_state = BLE_CONNECTABLE;
 }
